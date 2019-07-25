@@ -58,7 +58,7 @@ p {
   width: 490px;
   flex-direction: column;
 }
-.columnSelector, #gameBoard, #resetBar {
+.columnSelector, #jeuBoard, #resetBar {
   width: 490px;
   align-self: center;
 }
