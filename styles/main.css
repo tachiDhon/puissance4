@@ -1,56 +1,80 @@
 * {
    cursor: default;
- }
- body {
-   margin: 0;
-   background: #0e98e3;
-   color: #ecf0f1;
- }
- .wrapper {
-   display: flex;
-   width: 800px;
-   margin: 0 auto;
-   justify-content: center;
-   align-items: center;
-   flex-direction: column;
- }
- h1 {
-   font-family: 'Raleway', sans-serif;
-   text-align: center;
-   padding: 0;
-   margin: 2px;
- }
- p {
-   font-family: 'Open Sans', sans-serif;
-   font-size: 18px;
-   margin: 0;
-   padding: 0;
-   text-transform: uppercase;
- }
- .scoreBoard {
-   display: flex;
-   padding: 10px;
-   width: 350px;
-   justify-content: space-between;
-   align-items: center;
- }
- .score {
-   padding: 0 30px;
-   text-align: center;
-   flex-direction: column;
-   align-items: center;
-   transition: content .5s;
- }
- .scoreP1 {
-   background: #d8544a;
-   border: 2px #d8544a solid;
-   border-radius: 10px;
-   transition: background 1s;
- }
- .scoreP2 {
-   background: rgba(236, 181, 56, 0);
-   border: 2px #ecb538 solid;
-   border-radius: 10px;
-   transition: background 1s;
- }
- 
+}
+body {
+  margin: 0;
+  background: #0e98e3;
+  color: #ecf0f1;
+}
+.wrapper {
+  display: flex;
+  width: 800px;
+  margin: 0 auto;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+h1 {
+  font-family: 'Raleway', sans-serif;
+  text-align: center;
+  padding: 0;
+  margin: 2px;
+}
+p {
+  font-family: 'Open Sans', sans-serif;
+  font-size: 18px;
+  margin: 0;
+  padding: 0;
+  text-transform: uppercase;
+}
+.scoreBoard {
+  display: flex;
+  padding: 10px;
+  width: 350px;
+  justify-content: space-between;
+  align-items: center;
+}
+.score {
+  padding: 0 30px;
+  text-align: center;
+  flex-direction: column;
+  align-items: center;
+  transition: content .5s;
+}
+.scoreP1 {
+  background: #d8544a;
+  border: 2px #d8544a solid;
+  border-radius: 10px;
+  transition: background 1s;
+}
+.scoreP2 {
+  background: rgba(236, 181, 56, 0);
+  border: 2px #ecb538 solid;
+  border-radius: 10px;
+  transition: background 1s;
+}
+.playSpace {
+  display: flex;
+  width: 490px;
+  flex-direction: column;
+}
+.columnSelector, #gameBoard, #resetBar {
+  width: 490px;
+  align-self: center;
+}
+.columnSelector {
+  height: 20px;
+  background: #175DCC;
+  border-radius: 20px 20px 0 0;
+  margin: 20px 0 0 0;
+  border-right: 7px #004fcc solid;
+}
+#jeuBoard {
+  display: flex;
+  justify-content: center;
+  border-right: 7px #004fcc solid;
+  flex: 1;
+  align-items: flex-end;
+  padding: 0;
+  margin: 0;
+}
