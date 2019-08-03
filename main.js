@@ -1,7 +1,6 @@
 (function($) {
 
   $.fn.mypuissance4 = function() {
-
     var numRow = 6;
     var numCol = 7;
     var end = false; //Is the game over?
