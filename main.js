@@ -38,8 +38,6 @@
       }
     }
 
-    numberSpaces(board);
-
     //Put control and score where they need to be
     $('.controls').css({
       right: (-6 - 3 * numCol) + 'em'
@@ -121,85 +119,7 @@
         }
       }
     });
-    //});
-
-    //Resize the board
-    function reSize(board, direction) {
-
-      switch (direction) {
-        case 'moreRows':
-          numRow++;
-          break;
-        case 'moreColumns':
-          numCol++;
-          break;
-        case 'lessRows':
-          if (numRow > 1) {
-            numRow--;
-            break;
-          } else return false;
-        case 'lessColumns':
-          if (numCol > 1) {
-            numCol--;
-            break;
-          } else return false;
-      }
-
-      if (direction == 'moreRows' || direction == 'lessRows') {
-        $('#board, body').animate({
-          height: (6 * numRow) + 'em'
-        }, 300);
-        if (direction == 'moreRows') {
-          for (var i = 0; i < numCol; i++) {
-            $('#' + i).append('<div class="space empty"></div>');
-            board.columnEmpty[i] = numRow;
-            board.value[i][numRow - 1] = 'empty';
-            board.$name[i][numRow - 1] = $('.column:nth-child(' + (i + 1) + ') .space:nth-child(' + numRow + ')');
-            board.$name[i][numRow - 1].append('<p></p>');
-            board.$name[i][numRow - 1].delay(50 * i).fadeTo(1000, 1);
-          }
-        } else {
-          $('.space:last-child').remove();
-          for (var i = 0; i < numCol; i++) {
-            board.value[i][numRow] = undefined;
-            board.$name[i][numRow] = undefined;
-            board.columnEmpty[i] = numRow;
-          }
-        }
-      } else {
-        $('#board').animate({
-          width: (6 * numCol) + 'em'
-        }, 300);
-        if (direction == 'moreColumns') {
-          $('#board').append('<div class="column" id="' + (numCol - 1) + '"></div>')
-          board.value[numCol - 1] = [];
-          board.$name[numCol - 1] = [];
-          board.columnEmpty[numCol - 1] = numRow;
-
-          for (var j = 0; j < numRow; j++) {
-            $('.column:nth-child(' + numCol + ')').append('<div class="space empty"></div>');
-            board.value[(numCol - 1)][j] = 'empty';
-            board.$name[(numCol - 1)][j] = $('.column:nth-child(' + numCol + ') .space:nth-child(' + (j + 1) + ')');
-
-            board.$name[(numCol - 1)][j].append('<p></p>');
-
-            board.$name[(numCol - 1)][j].delay(100 * ((numCol - 1) / (j + 1))).fadeTo(1000, 1);
-          }
-
-          $('.column').css('cursor', 'pointer');
-        } else {
-          $('#' + numCol).remove();
-          board.value[numCol] = undefined;
-          board.$name[numCol] = undefined;
-          board.columnEmpty[numCol] = undefined;
-        }
-      }
-      numberSpaces(board);
-      $('.controls').animate({
-        right: (-6 - 3 * numCol) + 'em'
-      });
-    }
-
+    
     //Has anyone won the game?
     function checkVictory(board, whoseTurn, row, col) {
 
@@ -279,7 +199,7 @@
       }
 
       return false;
-    };
+    }
 
     //Announce a winner
     function endAnimation(board) {
@@ -289,7 +209,7 @@
 
       for (var i = 0; i < end.length; i++) {
         board.$name[end[i][0]][end[i][1]].stop(true).fadeTo(500, 0, function() {
-          $(this).delay(500).css('background-color', 'yellow').fadeTo(500, 1);
+          $(this).delay(500).css('background-color', 'black').fadeTo(500, 1);
         });
         //console.log(i+' = '+end[i]);
       }
@@ -305,7 +225,7 @@
       var x = Math.floor(Math.random() * end.length);
 
       restartButton(end[x][0], end[x][1], 3000);
-    };
+    }
 
     //Creates a restart button
     function restartButton(col, row, delay) {
@@ -326,23 +246,20 @@
         }
       );
 
-
       board.$name[col][row].click(function() {
         restart(board);
         $(this).off('click').off('hover');
         $(this).children().text(oldText);
       });
-    };
+    }
 
     //Reset the game and prints the winner among the two player
     function restart(board) {
 
       for (var i = 0; i < numCol; i++) {
-
         board.columnEmpty[i] = numRow;
 
         for (var j = 0; j < numRow; j++) {
-
           board.value[i][j] = 'empty';
           board.$name[i][j].stop(true).fadeTo(200, 0).delay(100 * (i / (j + 1))).removeClass('player1').removeClass('player2').addClass('empty').fadeTo(1000, 1).removeAttr('style');
         }
@@ -353,9 +270,10 @@
 
       window.setTimeout(function() {
         end = false;
-      }, 1000);
-    };
+      }, 500);
+    }
 
+    numberSpaces(board);
     //Numbers all spaces
     function numberSpaces(board) {
       for (var i = 0; i < numCol; i++) {
@@ -365,18 +283,16 @@
           var value = (numCol * j) + i + 1; //Total number of spaces so far
           var text = value;
 
-          if (value % 3 == 0) {
-            if (value % 5 == 0) {
+          if (value % 3 == 3) {
+            if (value % 5 == 5) {
               text = 'puissance4';
             } else text = 'connect';
-          } else if (value % 5 == 0) {
+          } else if (value % 5 == 5) {
             text = 'four';
           }
           board.$name[i][j].children().text(text);
         }
       }
-    };
-
-
+    }
   };
 }(jQuery));
