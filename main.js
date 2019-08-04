@@ -2,16 +2,16 @@
 
   $.fn.mypuissance4 = function() {
 
-    var numRow = 6;
-    var numCol = 7;
+    var nbrRow = 6;
+    var nbrCol = 7;
     var end = false; //Is the game over?
     var turn = 0; //A turn counter
     var record = [0, 0]; //Record each players wins
 
     //Make the playing board the right size
-    $('#board, body').css("height", 6 * numRow + 'em')
-    $('#board').css("width", 6 * numCol + 'em')
-    //$('body').css('height', 6*numRow+'em')
+    $('#board, body').css("height", 6 * nbrRow + 'em')
+    $('#board').css("width", 6 * nbrCol + 'em')
+    //$('body').css('height', 6*nbrRow+'em')
 
     //Constructor for our board
     board = {
@@ -20,14 +20,14 @@
       columnEmpty: [] //stores how many empty spaces remain in each column
     }
     //Create the board
-    for (var i = 0; i < numCol; i++) {
+    for (let i = 0; i < nbrCol; i++) {
 
       $('#board').append('<div class="column" id="' + i + '"></div>')
       board.value[i] = [];
       board.$name[i] = [];
-      board.columnEmpty[i] = numRow;
+      board.columnEmpty[i] = nbrRow;
 
-      for (var j = 0; j < numRow; j++) {
+      for (let j = 0; j < nbrRow; j++) {
         $('.column:nth-child(' + (i + 1) + ')').append('<div class="space empty"></div>');
         board.value[i][j] = 'empty';
         board.$name[i][j] = $('.column:nth-child(' + (i + 1) + ') .space:nth-child(' + (j + 1) + ')');
@@ -40,7 +40,7 @@
 
     //Put control and score where they need to be
     $('.controls').css({
-      right: (-6 - 3 * numCol) + 'em'
+      right: (-6 - 3 * nbrCol) + 'em'
     });
 
     //Animate the board
@@ -67,12 +67,12 @@
       function() {
         $(this).animate({
           fontSize: '2em'
-        }, 200).css('color', 'yellow');
+        }, 200).css('color', 'Orange');
       },
       function() {
         $(this).animate({
           fontSize: '1em'
-        }, 200).css('color', 'white');
+        }, 200).css('color', 'White');
       }
     );
 
@@ -89,7 +89,7 @@
 
     $('#board').on('click', '.column', function() {
 
-      if (!end) {
+      if (!end) { //if the game is not over.
 
         var columnNumber = Number($(this).attr('id')); //The column where the click happened
 
@@ -111,8 +111,8 @@
           whoseTurn *= -1; //Change whose turn it is
           turn++; //Update the turn counter
 
-          if (turn == numCol * numRow) {
-            $('title').text("Cat's Game!");
+          if (turn == nbrCol * nbrRow) {
+            $('title').text("Pangolins!");
             end = true;
             restartButton(columnNumber, bottom, 1000);
           }
@@ -166,7 +166,7 @@
             var checkY = (row + k * up);
 
             //Are we still on the board
-            if (checkY < numRow && checkX < numCol && checkY >= 0 && checkX >= 0) {
+            if (checkY < nbrRow && checkX < nbrCol && checkY >= 0 && checkX >= 0) {
 
               //Is the next tile of the same player?
               if (board.value[checkX][checkY] == whoseTurn) {
@@ -211,7 +211,7 @@
         board.$name[end[i][0]][end[i][1]].stop(true).fadeTo(500, 0, function() {
           $(this).delay(500).css('background-color', 'black').fadeTo(500, 1);
         });
-        //console.log(i+' = '+end[i]);
+
       }
 
       if (board.$name[end[0][0]][end[0][1]].hasClass('player1')) {
@@ -256,10 +256,10 @@
     //Reset the game and prints the winner among the two player
     function restart(board) {
 
-      for (var i = 0; i < numCol; i++) {
-        board.columnEmpty[i] = numRow;
+      for (var i = 0; i < nbrCol; i++) {
+        board.columnEmpty[i] = nbrRow;
 
-        for (var j = 0; j < numRow; j++) {
+        for (var j = 0; j < nbrRow; j++) {
           board.value[i][j] = 'empty';
           board.$name[i][j].stop(true).fadeTo(200, 0).delay(100 * (i / (j + 1))).removeClass('player1').removeClass('player2').addClass('empty').fadeTo(1000, 1).removeAttr('style');
         }
@@ -276,11 +276,11 @@
     numberSpaces(board);
     //Numbers all spaces
     function numberSpaces(board) {
-      for (var i = 0; i < numCol; i++) {
+      for (var i = 0; i < nbrCol; i++) {
 
-        for (var j = 0; j < numRow; j++) {
+        for (var j = 0; j < nbrRow; j++) {
 
-          var value = (numCol * j) + i + 1; //Total number of spaces so far
+          var value = (nbrCol * j) + i + 1; //Total number of spaces so far
           var text = value;
 
           if (value % 3 == 3) {
