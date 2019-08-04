@@ -2,31 +2,67 @@
 <html>
 
 <head>
+  <meta charset="utf8">
   <link href="https://fonts.googleapis.com/css?family=Roboto+Mono&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="styles.css" />
-  <title>Puissance4!</title>
+  <link rel="stylesheet" href="styles/main.css">
+  <title>Puissance4</title>
 </head>
 
 <body>
+  <div class="wrapper">
+    <header>
+      <h1>Bienvenue au jeu de Puissance4!</h1>
+    </header>
 
-  <div class="scores">
-  </div>
-  <div class="header">
-    <h1>Bienvenue au jeu de Puissanc4!</h1>
-  </div>
-  <!-- the main board -->
-  <div id="board">
+    <div class="scoreBoard">
+      <div class="score scoreP1">
+        <div class="playerName" id="nameOne">
+          <p>Joueur 1</p><span class="editBtn" id="editOne"></span>
+        </div>
+        <div class="playerScore">
+          <p id="scoreOne">0</p>
+        </div>
+      </div>
+      <div class="score scoreP2">
+        <div class="playerName" id="nameTwo">
+          <p>Joueur 2</p><span class="editBtn" id="editTwo"></span>
+        </div>
+        <div class="playerScore">
+          <p id="scoreTwo">0</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="playSpace">
+      <div class="columnSelector"></div>
+      <!-- <div id="gameBoard"></div> -->
+      <div id="resetBar">
+        <div id="resetWrapper"><span id="resetText">Reset</span>
+          <div id="resetSlit">
+            <div id="resetBtn"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- <div id="gameBoard">
+    </div> -->
+
+    <div class="fixed">
+      <i class="fa fa-volume-up" aria-hidden="true"></i>
+    </div>
   </div>
 
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-  
-  <script src='main.js'></script>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
+  <script src="scripts/main.js"></script>
   <script>
     $(document).ready(function() {
       $(function() {
-        $('#board').mypuissance4()
+        $('.playSpace').myconnect4()
       })
-    });
+    })
   </script>
 </body>
 
