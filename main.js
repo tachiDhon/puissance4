@@ -2,24 +2,24 @@
 
   $.fn.mypuissance4 = function() {
 
-    var nbrRow = 6;
-    var nbrCol = 7;
-    var end = false; //Is the game over?
-    var turn = 0; //A turn counter
-    var record = [0, 0]; //Record each players wins
+    var nbrRow = 5;
+    var nbrCol = 6;
+    var end = false; //Vérifie si le jeu est terminé?
+    var turn = 0; //le compteur de tourne
+    var record = [0, 0]; //Enregistre le gain de chaque jouer
 
-    //Make the playing board the right size
+    //Le Board à jouer de bonne taille
     $('#board, body').css("height", 6 * nbrRow + 'em')
     $('#board').css("width", 6 * nbrCol + 'em')
     //$('body').css('height', 6*nbrRow+'em')
 
-    //Constructor for our board
+    //Constructeur de nos board
     board = {
-      value: [], //stores the state of each space on the board
-      $name: [], //stores the jQuery name of each space (e.g. $('.column:nth-child(1) .space:nth-child(1)'))
-      columnEmpty: [] //stores how many empty spaces remain in each column
+      value: [], //Ranger l'état de chaque espace sur le board  
+      $name: [], //Ranger le nom jQuery de chaque espace (e.g. $('.colonne:nth-child(1) .space:nth-child(1)'))
+      columnEmpty: [] //Ranger combien des espaces libres restent dans chaque colonne
     }
-    //Create the board
+    //Créer le board
     for (let i = 0; i < nbrCol; i++) {
 
       $('#board').append('<div class="column" id="' + i + '"></div>')
@@ -38,30 +38,13 @@
       }
     }
 
-    //Put control and score where they need to be
     $('.controls').css({
       right: (-6 - 3 * nbrCol) + 'em'
     });
 
-    //Animate the board
+    //Animer le board
     $('#board').slideDown(1000, 'swing');
 
-    //Fade the hovered over column
-    $('#board').on('hover', '.column', function(e) {
-      if (e.type == 'mouseenter') { //mouseenter handler
-        if (!end) {
-          $(this).children('.empty').each(function(i) {
-            if (i == (board.columnEmpty[$(this).parent().attr('id')] - 1))
-              $(this).stop(true).delay(50 * i).fadeTo(200, 0.2);
-            else $(this).stop(true).delay(50 * i).fadeTo(200, 0.7);
-          });
-        }
-      } else { //mouseleave handler
-        $(this).children('.empty').each(function() {
-          $(this).stop(true).fadeTo(500, 1);
-        });
-      }
-    });
 
     $('.sizingButton').hover(
       function() {
@@ -84,32 +67,32 @@
 
     $('.column, .sizingButton').css('cursor', 'pointer');
 
-    //Whose turn is it? 1 = player 1, -1 = player 2.
+    //Le tour du quelle jouer? 1 = player 1, -1 = player 2.
     var whoseTurn = 1;
 
     $('#board').on('click', '.column', function() {
 
-      if (!end) { //if the game is not over.
+      if (!end) { //Si le jeu est fini.
 
-        var columnNumber = Number($(this).attr('id')); //The column where the click happened
+        var columnNumber = Number($(this).attr('id')); //Le colonne où l'on clique 
 
-        if (board.columnEmpty[columnNumber] > 0) { //Test to see that the column is not full
-          var bottom = board.columnEmpty[columnNumber] - 1; //The lowest available spot on that column
-          //Assign that space to the appropriate player
+        if (board.columnEmpty[columnNumber] > 0) { //Tester pour vérifier si le colonne n'est pas rempli.
+          var bottom = board.columnEmpty[columnNumber] - 1; //L'espacement le plus bas dans la colonne.
+          //Attribuer cet espace à un jouer approprié
           board.$name[columnNumber][bottom].stop().addClass('player' + (-0.5 * whoseTurn + 1.5)).removeClass('empty').css('opacity', '1');
-          //Fade the space above if it still exists
+          //Fade l'espace de haut s'il existe toujours.
           if (bottom > 0)
             board.$name[columnNumber][bottom - 1].stop().fadeTo(200, 0.2);
           board.value[columnNumber][bottom] = whoseTurn;
 
-          board.columnEmpty[columnNumber]--; //Remembers how full that column is
-          end = checkVictory(board, whoseTurn, bottom, columnNumber); //Has the game been won?
+          board.columnEmpty[columnNumber]--; //Se souvient du colonne si elle est remplie ou pas.
+          end = checkVictory(board, whoseTurn, bottom, columnNumber); //Checker le gagnant?
           if (end) {
             endAnimation(board);
           }
 
-          whoseTurn *= -1; //Change whose turn it is
-          turn++; //Update the turn counter
+          whoseTurn *= -1; //Changer le tour du jouer.
+          turn++; //Mise à jour du turn compteur.
 
           if (turn == nbrCol * nbrRow) {
             $('title').text("Pangolins!");
@@ -120,55 +103,55 @@
       }
     });
     
-    //Has anyone won the game?
+    //Quelqu'un a gagné le jeu?
     function checkVictory(board, whoseTurn, row, col) {
 
-      var connections = 1; //How many connections have been made?
-      //2 variables determining the direction in which we are checking
+      var connections = 1; //Combien de connection a été fiat?
+      //2 variables, determinant la direction dans laquelle on check.
       var up = 0;
       var right = 0;
 
-      //For fading animation purposes
+      //Pour fading Animation
       var singleMatch = false;
       var matches = 0;
 
-      //A matrix of the potentially winning combination
+      //Matrice de la combinaison potentiellement gagnante 
       var winningCombo = [
         [col, row]
       ];
 
 
-      for (var i = 0; i < 4; i++) { //Check in all 4 directions
+      for (var i = 0; i < 4; i++) { //Verifie sur la 4 directions. 
 
         switch (i) {
           case 0:
             up = 0;
-            right = 1;
+            right = 1;  //check le droit.
             break;
           case 1:
             up = 1;
-            right = 1;
+            right = 1; //check le diagonale gauche.
             break;
           case 2:
             up = 1;
-            right = 0;
+            right = 0; //check le haut.
             break;
           case 3:
             up = 1;
-            right = -1;
+            right = -1; //check le diagonale droit.
             break;
         }
 
-        for (var j = 0; j < 2; j++) { //Look both ways!
-          for (var k = 1; k < 4; k++) { //Look 3 spaces ahead
+        for (var j = 0; j < 2; j++) { //Verifie les deux directions!
+          for (var k = 1; k < 4; k++) { //Verifie 3 espaces en avant.
 
             var checkX = (col + k * right);
             var checkY = (row + k * up);
 
-            //Are we still on the board
+            //Toujours en board du jeu?
             if (checkY < nbrRow && checkX < nbrCol && checkY >= 0 && checkX >= 0) {
 
-              //Is the next tile of the same player?
+              //La prochaine tuile(ronde) de la même jouer?
               if (board.value[checkX][checkY] == whoseTurn) {
                 if (!singleMatch) {
                   board.$name[col][row].fadeTo(200, 0.5).fadeTo(200, 1);
@@ -181,7 +164,7 @@
               } else break;
             }
           }
-          //look the other way
+          //Verifie l'autre direction.
           up *= -1;
           right *= -1;
         }
@@ -201,7 +184,7 @@
       return false;
     }
 
-    //Announce a winner
+    //Annoncer le gagnant.
     function endAnimation(board) {
 
       $('.space').fadeTo(200, 1);
@@ -224,16 +207,16 @@
 
       var x = Math.floor(Math.random() * end.length);
 
-      restartButton(end[x][0], end[x][1], 3000);
+      restartButton(end[x][0], end[x][1], 2000);
     }
 
-    //Creates a restart button
+    //Créer le bouton de restart.
     function restartButton(col, row, delay) {
       window.setTimeout(function() {
         board.$name[col][row].fadeTo(500, 0, function() {
           $(this).css('background-color', 'white').fadeTo(500, 1);
           oldText = $(this).children().text();
-          $(this).children().text("Rejoueur?");
+          $(this).children().css('font-weight', 'bold').text("Rejoueur?");
         });
       }, delay);
 
@@ -253,7 +236,7 @@
       });
     }
 
-    //Reset the game and prints the winner among the two player
+    //Reset le jeu & affiche le gagnant du deux jouer.
     function restart(board) {
 
       for (var i = 0; i < nbrCol; i++) {
@@ -274,13 +257,13 @@
     }
 
     numberSpaces(board);
-    //Numbers all spaces
+    //Numeroter tous les espaces.
     function numberSpaces(board) {
       for (var i = 0; i < nbrCol; i++) {
 
         for (var j = 0; j < nbrRow; j++) {
 
-          var value = (nbrCol * j) + i + 1; //Total number of spaces so far
+          var value = (nbrCol * j) + i + 1; //Nombre totale des espaces.
           var text = value;
 
           if (value % 3 == 3) {
